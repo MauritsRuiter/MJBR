@@ -46,4 +46,4 @@ This repository is a personal portfolio built with React and Vite showcasing int
 
 Enjoy — want me to add a live deploy script or GitHub Pages / Vercel config next?
 
-Special thanks to link:"https://reactbits.dev/"
+Special thanks to [React Bits](https://reactbits.dev/)
