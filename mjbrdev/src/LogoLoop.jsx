@@ -15,7 +15,7 @@ const techLogos = [
   { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
   { src: "/src/assets/logos/css.svg", alt: "CSS", title: "CSS", href: "https://developer.mozilla.org/en-US/docs/Web/CSS" },
   { node: <SiJavascript />, title: "JavaScript", href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
-  { node: <SiGithub />, title: "GitHub", href: "https://github.com" },
+  { node: <SiGithub />, title: "GitHub", href: "https://github.com/mauritsruiter" },
 ];
 
 const toCssLength = value => (typeof value === 'number' ? `${value}px` : (value ?? undefined));
