@@ -1,16 +1,47 @@
-# React + Vite
+# MJBR — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository is a personal portfolio built with React and Vite showcasing interactive UI snippets, animated text, a horizontal services scroller, logo loop, and a creative hero component. It's designed to be visually bold, performant, and easy to customize.
 
-Currently, two official plugins are available:
+**Highlights**
+- **Interactive hero:** `RotatingText` for eye-catching, animated headline rotations.
+- **Animated copy:** `DynamicText` uses GSAP + ScrollTrigger for smooth, readable reveals.
+- **Horizontal scroller:** `HorizontalScroll` presents services with full-page panels and animated backgrounds.
+- **Visual effects:** `Beams`, `LetterGlitch`, and `LogoLoop` components add motion and depth.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Quick Links**
+- **App entry:** [src/App.jsx](src/App.jsx)
+- **Hero / rotating words:** [src/RotatingText.jsx](src/RotatingText.jsx)
+- **Dynamic text animation:** [src/DynamicText.jsx](src/DynamicText.jsx)
+- **Horizontal services:** [src/HorizontalScroll.jsx](src/HorizontalScroll.jsx)
+- **Footer:** [src/Footer.jsx](src/Footer.jsx)
 
-## React Compiler
+**Tech Stack**
+- **Framework:** React (Vite)
+- **Animations:** GSAP (ScrollTrigger)
+- **Styling:** Tailwind CSS (utility-first classes)
+- **Build:** Vite for fast HMR and production bundles
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+**Run locally**
+- **Install deps:** `npm install`
+- **Start dev server:** `npm run dev`
+- **Build production:** `npm run build`
+- **Preview build:** `npm run preview`
 
-## Expanding the ESLint configuration
+**How to customize**
+- **Texts & copy:** edit the strings in `src/RotatingText.jsx`, `src/DynamicText.jsx`, and `src/WhoAmI.jsx`.
+- **Hero timing / animation:** tweak props passed to `RotatingText` in `src/App.jsx`.
+- **Add logos/photos:** place assets in `src/assets/logos` and `src/assets/photos` and update `LogoLoop` or image `src` references.
+- **Colors & theme:** adjust Tailwind classes in components or update your Tailwind config to change the design system.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Assets**
+- Fonts and images live in `public/` and `src/assets/`.
+
+**Notes & tips**
+- The project leverages `document.fonts.ready` before animating text to avoid layout jumps.
+- Many components use GSAP's `ScrollTrigger` — check component files for animation details and customization hooks.
+
+**License & Contact**
+- **License:** feel free to use or fork (no license file included — add one if you need explicit terms).
+- **Contact / socials:** update the links in `src/StaggeredMenu.jsx` to point to your public profiles.
+
+Enjoy — want me to add a live deploy script or GitHub Pages / Vercel config next?
