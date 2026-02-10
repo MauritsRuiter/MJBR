@@ -45,3 +45,5 @@ This repository is a personal portfolio built with React and Vite showcasing int
 - **Contact / socials:** update the links in `src/StaggeredMenu.jsx` to point to your public profiles.
 
 Enjoy — want me to add a live deploy script or GitHub Pages / Vercel config next?
+
+Special thanks to link:"https://reactbits.dev/"
