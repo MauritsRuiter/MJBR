@@ -7,6 +7,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { PerspectiveCamera } from '@react-three/drei';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import useVisibilityObserver from '@/hooks/useVisibilityObserver';
+import useIsARM from '@/hooks/useIsARM';
 
 function extendMaterial(BaseMaterial, cfg) {
   const physical = THREE.ShaderLib.physical;
@@ -158,10 +159,11 @@ const Beams = ({
   const { ref: visibilityRef, isVisible } = useVisibilityObserver({
     name: 'Beams Animation'
   });
+  const isARM = useIsARM();
   
   return (
     <div ref={visibilityRef} style={{ width: '100%', height: '100%' }}>
-      {isVisible && <BeamsContent beamWidth={beamWidth} beamHeight={beamHeight} beamNumber={beamNumber} lightColor={lightColor} speed={speed} noiseIntensity={noiseIntensity} scale={scale} rotation={rotation} isVisible={isVisible} />}
+      {isVisible && !isARM && <BeamsContent beamWidth={beamWidth} beamHeight={beamHeight} beamNumber={beamNumber} lightColor={lightColor} speed={speed} noiseIntensity={noiseIntensity} scale={scale} rotation={rotation} isVisible={isVisible} />}
     </div>
   );
 };
