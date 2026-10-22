@@ -31,7 +31,7 @@ export const StaggeredMenu = ({
   displaySocials = true,
   displayItemNumbering = true,
   className,
-  logoUrl = "/src/assets/logos/mjbr-logo.svg",
+  logoUrl = "/assets/logos/mjbr-logo.svg",
   menuButtonColor = "#fff",
   openMenuButtonColor = "#fff",
   changeMenuColorOnOpen = false,
@@ -528,7 +528,7 @@ export const StaggeredMenu = ({
                 aria-label="Logo"
               >
                 <img
-                  src={logoUrl || "/src/assets/logos/mjbr-logo.svg"}
+                  src={logoUrl}
                   alt="Logo"
                   className="sm-logo-img block h-8 w-auto object-contain"
                   draggable={false}

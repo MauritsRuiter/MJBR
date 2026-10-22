@@ -53,7 +53,7 @@ export default function WhoAmI({ text = "Ok, but who am I?" }) {
 
       <div className="flex-1 flex justify-center">
         <img
-          src="./src/assets/photos/foto.png"
+          src="./assets/photos/foto.png"
           alt="A photo of me."
           className="rounded-lg shadow-lg object-cover"
         />
