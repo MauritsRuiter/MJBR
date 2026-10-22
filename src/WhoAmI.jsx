@@ -46,17 +46,8 @@ export default function WhoAmI({ text = "Ok, but who am I?" }) {
           {/* lil script to make my birthday always accurate */}
           I'm a passionate {Math.floor((new Date() - new Date(2005, 8, 1)) / (365.25 * 24 * 60 * 60 * 1000))}-year-old Web and AI Developer with 4 years of experience building web applications and websites. I specialize in creating responsive, user-friendly interfaces and robust backend systems.
         </p>
-        <p className="text-lg md:text-xl max-w-lg leading-relaxed mt-4">
-          When I'm not coding, you can find me learning about new technologies, libraries or expanding my skill set.
-        </p>
-        <p className="text-lg md:text-xl max-w-lg leading-relaxed mt-4">
-          I consistently deliver scalable, enterprise-grade solutions that align technical execution with business objectives.
-        </p>
-        <p className="text-lg md:text-xl max-w-lg leading-relaxed mt-4">
-          I excel at cross-functional collaboration, prioritize data-driven decisions, and am committed to delivering measurable impact and operational excellence.
-        </p>
-        <p className="text-lg md:text-xl max-w-lg leading-relaxed mt-4">
-          I also contribute to open-source projects, mentor aspiring developers, and share my work on GitHub and my personal blog.
+        <p className="text-lg md:text-xl max-w-lg leading-relaxed mt-2">
+          I have a strong interest in AI and its applications in web development. I enjoy exploring new technologies and staying up-to-date with the latest trends in the industry. My goal is to create innovative solutions that make a positive impact on people's lives.
         </p>
       </div>
 

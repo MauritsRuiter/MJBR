@@ -3,11 +3,11 @@ import useVisibilityObserver from '@/hooks/useVisibilityObserver';
 
 const LetterGlitch = ({
   glitchColors = ['#8c62ec', '#13022e', '#6a00e4'],
-  glitchSpeed = 50,
+  glitchSpeed = 200,
   centerVignette = false,
   outerVignette = true,
   smooth = true,
-  characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789'
+  characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&()/[]{};:<>0123456789'
 }) => {
   const canvasRef = useRef(null);
   const animationRef = useRef(null);

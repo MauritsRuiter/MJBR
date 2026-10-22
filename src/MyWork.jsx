@@ -6,7 +6,7 @@ import LetterGlitch from "./LetterGlitch";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function MyWork({ text = "Some of my work" }) {
+export default function MyWork({ text = "As of now not some of my work" }) {
   const [selected, setSelected] = useState("All");
   const [activeCard, setActiveCard] = useState(null);
 
