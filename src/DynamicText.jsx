@@ -27,7 +27,6 @@ export default function DynamicText({ text = "“I don't just build websites, I 
           ease: "linear",
           
           scrollTrigger: {
-            markers: true,
             trigger: animatedText,
             start: "top 20%",
             end: "bottom 60%",
