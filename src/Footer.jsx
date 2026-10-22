@@ -11,8 +11,16 @@ export default function Footer() {
 
     if (!letters?.length || !underline) return;
 
+    let hoverTimeline;
+    const footerText = finRef.current;
+
+    const handlePointerEnter = () => hoverTimeline.play();
+    const handlePointerLeave = () => hoverTimeline.reverse();
+    const handleFocus = () => hoverTimeline.play();
+    const handleBlur = () => hoverTimeline.reverse();
+
     const context = gsap.context(() => {
-      const hoverTimeline = gsap.timeline({ paused: true });
+      hoverTimeline = gsap.timeline({ paused: true });
 
       hoverTimeline
         .to(
@@ -34,13 +42,20 @@ export default function Footer() {
           0.08,
         );
 
-      finRef.current.addEventListener("pointerenter", () => hoverTimeline.play());
-      finRef.current.addEventListener("pointerleave", () => hoverTimeline.reverse());
-      finRef.current.addEventListener("focus", () => hoverTimeline.play());
-      finRef.current.addEventListener("blur", () => hoverTimeline.reverse());
     }, finRef);
 
-    return () => context.revert();
+    footerText.addEventListener("pointerenter", handlePointerEnter);
+    footerText.addEventListener("pointerleave", handlePointerLeave);
+    footerText.addEventListener("focus", handleFocus);
+    footerText.addEventListener("blur", handleBlur);
+
+    return () => {
+      footerText.removeEventListener("pointerenter", handlePointerEnter);
+      footerText.removeEventListener("pointerleave", handlePointerLeave);
+      footerText.removeEventListener("focus", handleFocus);
+      footerText.removeEventListener("blur", handleBlur);
+      context.revert();
+    };
   }, []);
 
   return (
@@ -50,7 +65,7 @@ export default function Footer() {
           ref={finRef}
           tabIndex={0}
           aria-label="FIN"
-          className="relative inline-flex cursor-pointer pb-3 text-8xl font-extrabold outline-none"
+          className="relative inline-flex cursor-pointer pb-3 text-8xl font-extrabold outline-none focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[#6A45FB]"
         >
           {Array.from("FIN", (letter, index) => (
             <span
