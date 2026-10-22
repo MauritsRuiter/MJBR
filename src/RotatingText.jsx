@@ -10,7 +10,6 @@ import React, {
   useRef,
 } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "motion/react";
-import { div, span } from "framer-motion/client";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useVisibilityObserver from "@/hooks/useVisibilityObserver";
@@ -23,22 +22,22 @@ function cn(...classes) {
 
 const RotatingText = forwardRef((props, ref) => {
   const {
-    texts,
-    transition = { type: "spring", damping: 25, stiffness: 300 },
-    initial = { y: "100%", opacity: 0 },
-    animate = { y: 0, opacity: 1 },
-    exit = { y: "-120%", opacity: 0 },
+    texts = ["thinking", "coding", "components", "designing", "deploying"],
+    transition = { type: "spring", damping: 30, stiffness: 400 },
+    initial = { y: "100%" },
+    animate = { y: 0 },
+    exit = { y: "-120%" },
     animatePresenceMode = "wait",
     animatePresenceInitial = false,
     rotationInterval = 2000,
     staggerDuration = 0.025,
-    staggerFrom = "first",
+    staggerFrom = "last",
     loop = true,
     auto = true,
     splitBy = "characters",
     onNext,
-    mainClassName,
-    splitLevelClassName,
+    mainClassName = "px-3 sm:px-4 md:px-4 bg-[#6A45FB] text-black overflow-hidden py-5 sm:py-2 md:py-2 justify-center rounded-2xl",
+    splitLevelClassName = "overflow-hidden pb-0.5 sm:pb-1 md:pb-1",
     elementLevelClassName,
     ...rest
   } = props;

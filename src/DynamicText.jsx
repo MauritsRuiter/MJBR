@@ -25,10 +25,12 @@ export default function DynamicText({ text = "“I don't just build websites, I 
           opacity: 1,
           stagger: 0.2,
           ease: "linear",
+          
           scrollTrigger: {
+            markers: true,
             trigger: animatedText,
             start: "top 20%",
-            end: "bottom 90%",
+            end: "bottom 60%",
             scrub: 1,
           },
         },

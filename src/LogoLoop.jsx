@@ -182,7 +182,7 @@ export const LogoLoop = memo(
     const rootClasses = useMemo(
       () =>
         cx(
-          'mt-20 mb-20',
+          'mt-64 mb-20 sm:mt-20',
           'relative group',
           isVertical ? 'overflow-hidden h-full inline-block' : 'overflow-x-hidden',
           '[--logoloop-gap:32px]',
