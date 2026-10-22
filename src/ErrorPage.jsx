@@ -2,9 +2,9 @@ import { ArrowLeft } from "lucide-react";
 
 export default function ErrorPage({ status = 404 }) {
   const isForbidden = status === 403;
-  const title = isForbidden ? "Geen toegang." : "Looks like you've lost your way.";
+  const title = isForbidden ? "Access denied." : "Looks like you've lost your way.";
   const message = isForbidden
-    ? "Je hebt geen toestemming om deze pagina te bekijken."
+    ? "You don't have permission to view this page."
     : "This page doesn't exist, or the link may be incorrect.";
 
   return (
@@ -12,7 +12,7 @@ export default function ErrorPage({ status = 404 }) {
       <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-white/10" />
       <div className="relative flex flex-col items-center">
         <p className="mb-3 text-xs tracking-[0.3em] text-[#6A45FB] uppercase">
-          {isForbidden ? "Verboden toegang" : "Page not found"}
+          {isForbidden ? "Access denied" : "Page not found"}
         </p>
         <p
           aria-hidden="true"
@@ -29,7 +29,7 @@ export default function ErrorPage({ status = 404 }) {
           className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-full border border-white/20 px-5 text-sm transition-colors hover:border-[#6A45FB] hover:bg-[#6A45FB] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6A45FB]"
         >
           <ArrowLeft aria-hidden="true" size={16} />
-          {isForbidden ? "Terug naar home" : "Back to home"}
+          Back to home
         </a>
       </div>
       <p className="absolute right-6 bottom-6 text-xs text-white/30">
