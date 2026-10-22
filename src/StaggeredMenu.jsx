@@ -498,7 +498,6 @@ export const StaggeredMenu = ({
             <div
               ref={preLayersRef}
               className="sm-prelayers pointer-events-none absolute top-0 right-0 bottom-0 z-5"
-              aria-hidden="false"
             >
               {(() => {
                 const raw =

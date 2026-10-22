@@ -32,15 +32,15 @@ export const useVisibilityObserver = (options = {}) => {
         // Only log when visibility state actually changes
         if (lastVisibilityRef.current !== newVisibilityState && !isInitialLoad) {
           if (debug) {
-            const status = newVisibilityState ? '🎬 ACTIVE' : '⏸️ INACTIVE';
-            const timestamp = new Date().toLocaleTimeString('en-US', {
-              hour12: false,
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              fractionalSecondDigits: 3
-            });
-            console.log(`[${timestamp}] ${status} — ${name}`);
+            // const status = newVisibilityState ? '🎬 ACTIVE' : '⏸️ INACTIVE';
+            // const timestamp = new Date().toLocaleTimeString('en-US', {
+            //   hour12: false,
+            //   hour: '2-digit',
+            //   minute: '2-digit',
+            //   second: '2-digit',
+            //   fractionalSecondDigits: 3
+            // });
+            // console.log(`[${timestamp}] ${status} — ${name}`);
           }
           lastVisibilityRef.current = newVisibilityState;
         }
