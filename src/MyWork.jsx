@@ -43,9 +43,6 @@ export default function MyWork({ text = "As of now not some of my work" }) {
         "Dark theme with gradient accents",
         "Mobile-first design approach",
       ],
-      results:
-        "Increased portfolio visibility and client inquiries by 40% within the first month of launch.",
-      img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600",
     },
     {
       id: 2,
@@ -64,9 +61,6 @@ export default function MyWork({ text = "As of now not some of my work" }) {
         "Brand guidelines documentation",
         "Social media templates",
       ],
-      results:
-        "Enabled consistent brand communication across all platforms and increased brand recognition by 60% among target audience.",
-      img: "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=600",
     },
     {
       id: 3,
@@ -85,9 +79,6 @@ export default function MyWork({ text = "As of now not some of my work" }) {
         "Guest contributions to industry publications",
         "High engagement rates on social platforms",
       ],
-      results:
-        "Built an audience of 10k+ followers and established thought leadership in the design and tech community.",
-      img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600",
     },
     {
       id: 4,
@@ -106,9 +97,6 @@ export default function MyWork({ text = "As of now not some of my work" }) {
         "Fully documented source code",
         "Live sandbox environments",
       ],
-      results:
-        "Generated 20k+ GitHub stars and became a learning resource for 50k+ developers worldwide.",
-      img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600",
     },
     {
       id: 5,
@@ -127,9 +115,6 @@ export default function MyWork({ text = "As of now not some of my work" }) {
         "Cross-browser compatibility",
         "SEO-optimized metadata",
       ],
-      results:
-        "Achieved 2M+ page views and 35% conversion rate increase compared to previous static landing page.",
-      img: "https://images.unsplash.com/photo-1593642634367-d91a135587b5?w=600",
     },
     {
       id: 6,
@@ -148,9 +133,6 @@ export default function MyWork({ text = "As of now not some of my work" }) {
         "Motion guidelines documentation",
         "Smooth 60fps animations",
       ],
-      results:
-        "Enhanced brand presence across social media with 150% increase in video engagement rates.",
-      img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600",
     },
     {
       id: 7,
@@ -169,9 +151,6 @@ export default function MyWork({ text = "As of now not some of my work" }) {
         "Usage examples for all components",
         "WCAG AA accessibility compliance",
       ],
-      results:
-        "Reduced design inconsistencies by 85% and cut design-to-development handoff time by 40%.",
-      img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600",
     },
     {
       id: 8,
@@ -193,7 +172,6 @@ export default function MyWork({ text = "As of now not some of my work" }) {
       ],
       results:
         "Helped 5k+ writers increase productivity by 3x and reduce content creation time from hours to minutes.",
-      img: "https://images.unsplash.com/photo-1593642634367-d91a135587b5?w=600",
     },
   ];
 
@@ -298,7 +276,7 @@ export default function MyWork({ text = "As of now not some of my work" }) {
 
   return (
     <>
-      <div id="services" className="absolute h-screen w-full overflow-hidden">
+      <div id="services" className="absolute hidden h-screen w-full overflow-hidden sm:block">
         {/* Top gradient overlay */}
         <div className="pointer-events-none absolute top-0 right-0 left-0 z-10 h-128 bg-linear-to-b from-black to-transparent" />
 
@@ -379,7 +357,7 @@ export default function MyWork({ text = "As of now not some of my work" }) {
                 )`,
                   borderRight: `4px solid ${hexToRgba(categoryColors[proj.category], 0.7)}`,
                   borderBottom: `4px solid ${hexToRgba(categoryColors[proj.category], 0.7)}`,
-                  backdropFilter: 'blur(2px)',
+                  backdropFilter: "blur(2px)",
                 }}
               >
                 <div className="relative flex h-full flex-col justify-between p-4">
@@ -434,7 +412,7 @@ export default function MyWork({ text = "As of now not some of my work" }) {
                 )`,
                   borderRight: `4px solid ${hexToRgba(categoryColors[activeCard.category], 0.7)}`,
                   borderBottom: `4px solid ${hexToRgba(categoryColors[activeCard.category], 0.7)}`,
-                  backdropFilter: 'blur(12px)',
+                  backdropFilter: "blur(12px)",
                 }}
               >
                 <button
@@ -461,9 +439,7 @@ export default function MyWork({ text = "As of now not some of my work" }) {
                         key={idx}
                         className="flex items-start gap-3 text-gray-300"
                       >
-                        <span className="mt-1 text-(--category-color)">
-                          •
-                        </span>
+                        <span className="mt-1 text-(--category-color)">•</span>
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -471,9 +447,11 @@ export default function MyWork({ text = "As of now not some of my work" }) {
                 </div>
 
                 <div className="mb-8">
-                  <h3 className="mb-2 text-xl font-semibold text-white">
-                    Results
-                  </h3>
+                  {activeCard.results && (
+                    <h3 className="mb-2 text-xl font-semibold text-white">
+                      Results
+                    </h3>
+                  )}
                   <p className="text-gray-400 italic">{activeCard.results}</p>
                 </div>
 
@@ -494,11 +472,13 @@ export default function MyWork({ text = "As of now not some of my work" }) {
                     </span>
                   ))}
                 </div>
-                <img
-                  src={activeCard.img}
-                  alt={activeCard.title}
-                  className="mt-6 rounded-lg sm:w-1/2 md:w-4/6 lg:w-1/3"
-                />
+                {activeCard.img && (
+                  <img
+                    src={activeCard.img}
+                    alt={activeCard.title}
+                    className="mt-6 rounded-lg sm:w-1/2 md:w-4/6 lg:w-1/3"
+                  />
+                )}
               </motion.div>
             </motion.div>
           )}

@@ -10,8 +10,20 @@ import WhoAmI from "./WhoAmI";
 import StaggeredMenu from "./StaggeredMenu";
 import RotatingText from "./RotatingText";
 import LogoLoop from "./LogoLoop";
+import ErrorPage from "./ErrorPage";
 
 function App() {
+  const pathname = window.location.pathname;
+
+  if (pathname === "/404" || pathname === "/403") {
+    const status = pathname === "/404" ? 404 : 403;
+    return <ErrorPage status={status} />;
+  }
+
+  if (pathname !== "/" && pathname !== "/index.html") {
+    return <ErrorPage />;
+  }
+
   return (
     <>
       <Header />
