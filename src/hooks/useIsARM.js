@@ -1,44 +1,52 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-/**
- * Hook to detect if the device uses ARM-based chips by checking WebGL renderer
- * @returns {boolean} true if likely ARM-based device
- */
-export const useIsARM = () => {
-  const [isARM, setIsARM] = useState(false);
+const hasARMRenderer = () => {
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) return false;
 
-  useEffect(() => {
-    try {
-      const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      
-      if (gl) {
-        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-        const renderer = debugInfo 
-          ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) 
-          : gl.getParameter(gl.RENDERER);
-        
-        // Check for common ARM GPU identifiers
-        if (renderer && (
-          renderer.includes('Apple') || 
-          renderer.includes('ARM') || 
-          renderer.includes('Mali') || 
-          renderer.includes('Adreno') ||
-          renderer.includes('PowerVR')
-        )) {
-          setIsARM(true);
-        }
-      }
-    } catch (error) {
-      // Fallback: check user agent for mobile devices (most are ARM)
-      const ua = navigator.userAgent;
-      if (ua.includes('Mobile') || ua.includes('Android') || ua.includes('iPhone') || ua.includes('iPad')) {
-        setIsARM(true);
-      }
-    }
-  }, []);
+    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+    const renderer = debugInfo
+      ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+      : gl.getParameter(gl.RENDERER);
 
-  return isARM;
+    return /apple|arm|mali|adreno|powervr/i.test(renderer || '');
+  } catch {
+    return false;
+  }
 };
 
-export default useIsARM;
+/** Returns true when the Beams animation should be hidden on this device. */
+export const useShouldHideBeams = () => {
+  const [shouldHide, setShouldHide] = useState(true);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent || '';
+    const platform = navigator.userAgentData?.platform || navigator.platform || '';
+    const isMacOS = /mac/i.test(platform) || /Macintosh|Mac OS X/i.test(userAgent);
+    const isIPhoneOrIPad = /iPhone|iPad|iPod/i.test(userAgent);
+    const isAndroidPhone = /Android/i.test(userAgent) && /Mobile/i.test(userAgent);
+
+    if (isMacOS || isIPhoneOrIPad || isAndroidPhone || hasARMRenderer()) {
+      setShouldHide(true);
+      return;
+    }
+
+    const userAgentData = navigator.userAgentData;
+    if (userAgentData?.getHighEntropyValues) {
+      userAgentData.getHighEntropyValues(['architecture'])
+        .then(({ architecture }) => {
+          setShouldHide(/arm/i.test(architecture || ''));
+        })
+        .catch(() => setShouldHide(false));
+      return;
+    }
+
+    setShouldHide(false);
+  }, []);
+
+  return shouldHide;
+};
+
+export default useShouldHideBeams;
