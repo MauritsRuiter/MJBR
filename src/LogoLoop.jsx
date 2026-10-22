@@ -1,11 +1,11 @@
-import { color } from 'framer-motion';
-import { style } from 'framer-motion/client';
-import { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, memo } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SiReact, SiCss3, SiTypescript, SiTailwindcss, SiJavascript, SiGithub, } from 'react-icons/si';
-import useVisibilityObserver from '@/hooks/useVisibilityObserver';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ANIMATION_CONFIG = {
-  SMOOTH_TAU: 0.25,
   MIN_COPIES: 2,
   COPY_HEADROOM: 2
 };
@@ -82,91 +82,13 @@ const useImageLoader = (seqRef, onLoad, dependencies) => {
   }, [onLoad, seqRef, dependencies]);
 };
 
-const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, isVisible) => {
-  const rafRef = useRef(null);
-  const lastTimestampRef = useRef(null);
-  const offsetRef = useRef(0);
-  const velocityRef = useRef(0);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const seqSize = isVertical ? seqHeight : seqWidth;
-
-    if (seqSize > 0) {
-      offsetRef.current = ((offsetRef.current % seqSize) + seqSize) % seqSize;
-      const transformValue = isVertical
-        ? `translate3d(0, ${-offsetRef.current}px, 0)`
-        : `translate3d(${-offsetRef.current}px, 0, 0)`;
-      track.style.transform = transformValue;
-    }
-
-    if (prefersReduced) {
-      track.style.transform = isVertical ? 'translate3d(0, 0, 0)' : 'translate3d(0, 0, 0)';
-      return () => {
-        lastTimestampRef.current = null;
-      };
-    }
-
-    const animate = timestamp => {
-      if (!isVisible) {
-        return;
-      }
-
-      if (lastTimestampRef.current === null) {
-        lastTimestampRef.current = timestamp;
-      }
-
-      const deltaTime = Math.max(0, timestamp - lastTimestampRef.current) / 1000;
-      lastTimestampRef.current = timestamp;
-
-      const target = isHovered && hoverSpeed !== undefined ? hoverSpeed : targetVelocity;
-
-      const easingFactor = 1 - Math.exp(-deltaTime / ANIMATION_CONFIG.SMOOTH_TAU);
-      velocityRef.current += (target - velocityRef.current) * easingFactor;
-
-      if (seqSize > 0) {
-        let nextOffset = offsetRef.current + velocityRef.current * deltaTime;
-        nextOffset = ((nextOffset % seqSize) + seqSize) % seqSize;
-        offsetRef.current = nextOffset;
-
-        const transformValue = isVertical
-          ? `translate3d(0, ${-offsetRef.current}px, 0)`
-          : `translate3d(${-offsetRef.current}px, 0, 0)`;
-        track.style.transform = transformValue;
-      }
-
-      rafRef.current = requestAnimationFrame(animate);
-    };
-
-    rafRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
-      }
-      lastTimestampRef.current = null;
-    };
-  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef, isVisible]);
-};
-
 export const LogoLoop = memo(
   ({
     logos = techLogos,
-    speed = 120,
     direction = 'left',
     width = '100%',
     logoHeight = 68,
     gap = 75,
-    pauseOnHover,
-    hoverSpeed,
     fadeOut = false,
     fadeOutColor,
     scaleOnHover = true,
@@ -178,35 +100,12 @@ export const LogoLoop = memo(
     const containerRef = useRef(null);
     const trackRef = useRef(null);
     const seqRef = useRef(null);
-    const { ref: visibilityRef, isVisible } = useVisibilityObserver({
-      name: 'LogoLoop Animation'
-    });
 
     const [seqWidth, setSeqWidth] = useState(0);
     const [seqHeight, setSeqHeight] = useState(0);
     const [copyCount, setCopyCount] = useState(ANIMATION_CONFIG.MIN_COPIES);
-    const [isHovered, setIsHovered] = useState(false);
-
-    const effectiveHoverSpeed = useMemo(() => {
-      if (hoverSpeed !== undefined) return hoverSpeed;
-      if (pauseOnHover === true) return 0;
-      if (pauseOnHover === false) return undefined;
-      return 0;
-    }, [hoverSpeed, pauseOnHover]);
 
     const isVertical = direction === 'up' || direction === 'down';
-
-    const targetVelocity = useMemo(() => {
-      const magnitude = Math.abs(speed);
-      let directionMultiplier;
-      if (isVertical) {
-        directionMultiplier = direction === 'up' ? 1 : -1;
-      } else {
-        directionMultiplier = direction === 'left' ? 1 : -1;
-      }
-      const speedMultiplier = speed < 0 ? -1 : 1;
-      return magnitude * directionMultiplier * speedMultiplier;
-    }, [speed, direction, isVertical]);
 
     const updateDimensions = useCallback(() => {
       const containerWidth = containerRef.current?.clientWidth ?? 0;
@@ -237,7 +136,39 @@ export const LogoLoop = memo(
 
     useImageLoader(seqRef, updateDimensions, [logos, gap, logoHeight, isVertical]);
 
-    useAnimationLoop(trackRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, isVertical, isVisible);
+    useLayoutEffect(() => {
+      const container = containerRef.current;
+      const track = trackRef.current;
+      const sequenceSize = isVertical ? seqHeight : seqWidth;
+
+      if (!container || !track || sequenceSize === 0) return;
+
+      const axis = isVertical ? 'y' : 'x';
+      const movesNegative = direction === 'left' || direction === 'up';
+      const startPosition = movesNegative ? 0 : -sequenceSize;
+      const endPosition = movesNegative ? -sequenceSize : 0;
+
+      const tween = gsap.fromTo(
+        track,
+        { [axis]: startPosition },
+        {
+          [axis]: endPosition,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+            invalidateOnRefresh: true
+          }
+        }
+      );
+
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.revert();
+      };
+    }, [seqWidth, seqHeight, direction, isVertical]);
 
     const cssVariables = useMemo(
       () => ({
@@ -263,13 +194,6 @@ export const LogoLoop = memo(
         ),
       [isVertical, scaleOnHover, className]
     );
-
-    const handleMouseEnter = useCallback(() => {
-      if (effectiveHoverSpeed !== undefined) setIsHovered(true);
-    }, [effectiveHoverSpeed]);
-    const handleMouseLeave = useCallback(() => {
-      if (effectiveHoverSpeed !== undefined) setIsHovered(false);
-    }, [effectiveHoverSpeed]);
 
     const renderLogoItem = useCallback(
       (item, key) => {
@@ -394,15 +318,13 @@ export const LogoLoop = memo(
     );
 
     return (
-      <div ref={visibilityRef}>
+      <div>
         <div
           ref={containerRef}
           className={rootClasses}
           style={containerStyle}
           role="region"
           aria-label={ariaLabel}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
         >
         {fadeOut && (
           <>
@@ -455,8 +377,6 @@ export const LogoLoop = memo(
             isVertical ? 'flex-col h-max w-full' : 'flex-row w-max'
           )}
           ref={trackRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
         >
           {logoLists}
         </div>
