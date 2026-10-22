@@ -29,7 +29,10 @@ export default function DynamicText({ text = "“I don't just build websites, I 
           scrollTrigger: {
             trigger: animatedText,
             start: "top 20%",
-            end: "bottom 60%",
+            end: () =>
+              window.matchMedia("(min-width: 768px)").matches
+                ? "bottom 90%"
+                : "bottom 60%",
             scrub: 1,
           },
         },
