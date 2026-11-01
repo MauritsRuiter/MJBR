@@ -1,4 +1,4 @@
-# MJBR Portfolio
+# MJBR Portfolio Maurits Ruiter
 
 Personal portfolio built with React and Vite. It brings together animated typography, scroll-driven sections, project work, and custom error pages.
 
