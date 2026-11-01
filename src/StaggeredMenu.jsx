@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import BG from "./bg.jsx";
+import BG from "./BG.jsx";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { menuitem } from "framer-motion/client";
